@@ -2,15 +2,71 @@
  * 首页骨架
  */
 import React, { Component } from 'react'
-import { Route, Link } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import House from '../house'
 import Index from '../index'
 import Profile from '../profile'
 
+import { TabBar } from 'antd-mobile'
+
 import './index.css'
 
+// tabBar标签数据
+const TabBarList = [
+  {
+    title: '首页',
+    icon: 'icon-ind',
+    path: '/home',
+  },
+  {
+    title: '找房',
+    icon: 'icon-findHouse',
+    path: '/home/house',
+  },
+  {
+    title: '我的',
+    icon: 'icon-my',
+    path: '/home/profile',
+  },
+]
+
 export default class Home extends Component {
+  state = {
+    // 标签栏选中状态=>动态获取
+    selectedTab: this.props.location.pathname,
+  }
+
+  // 渲染标签栏
+  renderTabBar() {
+    return (
+      <TabBar
+        // 未选中字体颜色
+        unselectedTintColor="#949494"
+        // 选中的颜色
+        tintColor="#33A3F4"
+        // tabBar的背景色
+        barTintColor="white">
+        {TabBarList.map((item) => (
+          <TabBar.Item
+            title={item.title}
+            key={item.icon}
+            icon={<i className={`iconfont ${item.icon}`} />}
+            selectedIcon={<i className={`iconfont ${item.icon}`} />}
+            selected={this.state.selectedTab === item.path}
+            onPress={() => {
+              this.props.history.push(item.path)
+              this.setState({
+                selectedTab: item.path,
+              })
+            }}
+          />
+        ))}
+      </TabBar>
+    )
+  }
+
   render() {
+    // console.log(this.props)
     return (
       <div>
         {/* 配置二级路由 */}
@@ -19,11 +75,7 @@ export default class Home extends Component {
         <Route path="/home/profile" component={Profile} />
 
         {/* NavBar */}
-        <div className="bar">
-          <Link to="/home">首页</Link>
-          <Link to="/home/house">列表找房</Link>
-          <Link to="/home/profile">我的</Link>
-        </div>
+        <div className="tabBar">{this.renderTabBar()}</div>
       </div>
     )
   }

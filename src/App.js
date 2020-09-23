@@ -1,6 +1,6 @@
 import React from 'react'
 // import { Button } from 'antd-mobile'
-import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import CityList from './pages/cityList'
 import Home from './pages/home'
 import Map from './pages/map'
@@ -15,12 +15,6 @@ import NotFound from './pages/notFound'
 function App () {
   return (
     <Router>
-      {/* 测试路由 */}
-      <div className="nav">
-        <Link to="/home">首页</Link>
-        <Link to="/cityList">城市选择</Link>
-        <Link to="/map">地图找房</Link>
-      </div>
       <Switch>
         {/* 默认首页重定向 */}
         <Redirect exact from='/' to='/home' />

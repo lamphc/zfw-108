@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom'
 import './index.css'
 // 导入ant组件库样式
 // import 'antd-mobile/dist/antd-mobile.css'
+// 导入子图图表样式
+import './assets/fonts/iconfont.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 
