@@ -3,9 +3,9 @@ import React from 'react'
 
 function App () {
   return (
-    <div className="app">
-      app
-    </div>
+    <center className="app">
+      <h1>租房网</h1>
+    </center>
   )
 }
 
