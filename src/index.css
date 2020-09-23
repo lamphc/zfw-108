@@ -25,7 +25,7 @@ li {
 }
 
 * {
-  /* touch-action: pan-y; */
+  touch-action: pan-y;
   box-sizing: border-box;
 }
 
