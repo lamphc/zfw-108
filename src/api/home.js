@@ -16,3 +16,10 @@ export function getGroup (area = 'AREA|88cff55c-aaa4-e2e0') {
   })
 }
 
+//  获取资讯列表
+export function getNews (area = 'AREA|88cff55c-aaa4-e2e0') {
+  return request.get('/home/news', {
+    params: { area }
+  })
+}
+

@@ -2,11 +2,12 @@
  * 默认首页（第一个标签页页面）
  */
 import React, { Component } from 'react'
-import { Carousel, Flex, Grid } from 'antd-mobile'
-import { getSwiper, getGroup } from '../../api/home'
+import { Carousel, Flex, Grid, WingBlank, SearchBar } from 'antd-mobile'
+import { getSwiper, getGroup, getNews } from '../../api/home'
 import './index.scss'
 import navs from '../../utils/navConf'
 import { BASE_URL } from '../../utils/request'
+import { getCurCity } from '../../utils'
 
 // const data1 = Array.from(new Array(4)).map(() => ({
 //   icon: 'https://gw.alipayobjects.com/zos/rmsportal/WXoqXTHrSnRcUwEaQgXJ.png',
@@ -19,46 +20,101 @@ class Index extends Component {
     swiper: [],
     // 租房小组
     group: [],
+    // 新闻资讯
+    news: [],
+    // 搜索的关键词
+    keyword: '',
     // 是否自动播放
     isPlay: false,
     imgHeight: 176,
+    // 定位城市
+    cityInfo: {
+      label: '--',
+      value: '',
+    },
   }
   componentDidMount() {
-    this.getSwiper()
-    this.getGroup()
+    // this.getSwiper()
+    // this.getGroup()
+    // this.getNews()
+    this.getAllData()
+    this.getCurCity()
   }
 
-  // 获取轮播图数据
-  async getSwiper() {
-    const { status, data } = await getSwiper()
-    if (status === 200) {
+  // 定位城市
+  async getCurCity() {
+    const cityInfo = await getCurCity()
+    this.setState({ cityInfo })
+  }
+
+  // 获取首页所有接口的数据
+  async getAllData() {
+    try {
+      const [swiper, group, news] = await Promise.all([
+        getSwiper(),
+        getGroup(),
+        getNews(),
+      ])
+      // console.log(swiper, group, news)
       this.setState(
-        {
-          swiper: data,
-        },
+        { swiper: swiper.data, group: group.data, news: news.data },
         () => {
-          // 设置自动播放 =》$nextTick()
-          this.setState({
-            isPlay: true,
-          })
+          // 组件渲染完
+          this.setState({ isPlay: true })
         }
       )
-      console.log(this.state.swiper)
+    } catch (error) {
+      console.log(error)
     }
   }
 
-  // 获取租房小组数据
-  async getGroup() {
-    const { status, data } = await getGroup()
-    if (status === 200) {
-      // console.log(data)
-      this.setState({ group: data })
-    }
+  // 渲染最新资讯
+  renderNews() {
+    return this.state.news.map((item) => (
+      <div className="news-item" key={item.id}>
+        <div className="imgwrap">
+          <img className="img" src={`${BASE_URL}${item.imgSrc}`} alt="" />
+        </div>
+        <Flex className="content" direction="column" justify="between">
+          <h3 className="title">{item.title}</h3>
+          <Flex className="info" justify="between">
+            <span>{item.from}</span>
+            <span>{item.date}</span>
+          </Flex>
+        </Flex>
+      </div>
+    ))
+  }
+
+  // 渲染顶部导航
+  renderTopNav = () => {
+    const { push } = this.props.history
+    return (
+      <Flex justify="around" className="topNav">
+        <div className="searchBox">
+          <div className="city" onClick={() => push('/cityList')}>
+            {this.state.cityInfo.label}
+            <i className="iconfont icon-arrow" />
+          </div>
+          <SearchBar
+            // 受控组件=》双向绑定
+            value={this.state.keyword}
+            onChange={(v) => this.setState({ keyword: v })}
+            placeholder="请输入小区或地址"
+          />
+        </div>
+        <div className="map" onClick={() => push('/map')}>
+          <i key="0" className="iconfont icon-map" />
+        </div>
+      </Flex>
+    )
   }
 
   render() {
     return (
       <div>
+        {/* 顶部的搜索导航 */}
+        {this.renderTopNav()}
         {/* 轮播图 */}
         <Carousel autoplay={this.state.isPlay} infinite>
           {this.state.swiper.map((item) => (
@@ -127,6 +183,11 @@ class Index extends Component {
               )
             }}
           />
+        </div>
+        {/* 最新资讯 */}
+        <div className="news">
+          <h3 className="group-title">最新资讯</h3>
+          <WingBlank size="md">{this.renderNews()}</WingBlank>
         </div>
       </div>
     )

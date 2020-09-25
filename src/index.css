@@ -29,6 +29,10 @@ li {
   box-sizing: border-box;
 }
 
+#root {
+  height: 100%;
+}
+
 .nav a {
   display: inline-block;
   margin: 20px;
