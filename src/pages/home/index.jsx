@@ -10,25 +10,7 @@ import Profile from '../profile'
 import { TabBar } from 'antd-mobile'
 
 import './index.css'
-
-// tabBar标签数据
-const TabBarList = [
-  {
-    title: '首页',
-    icon: 'icon-ind',
-    path: '/home',
-  },
-  {
-    title: '找房',
-    icon: 'icon-findHouse',
-    path: '/home/house',
-  },
-  {
-    title: '我的',
-    icon: 'icon-my',
-    path: '/home/profile',
-  },
-]
+import TabBarList from '../../utils/barConf'
 
 export default class Home extends Component {
   state = {
