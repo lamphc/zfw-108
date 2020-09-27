@@ -59,4 +59,4 @@ export function delLocalData (key) {
 
 
 
-export { getCurCity }
+export { getCurCity, CURR_CITY }
