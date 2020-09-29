@@ -1,6 +1,7 @@
 import React from 'react'
 // import { Button } from 'antd-mobile'
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import HouseDetail from './components/HouseDetail'
 import CityList from './pages/cityList'
 import Home from './pages/home'
 import Map from './pages/map'
@@ -24,6 +25,8 @@ function App () {
         <Route path="/cityList" component={CityList} />
         {/* 地图找房 */}
         <Route path="/map" component={Map} />
+        {/* 房源详情 */}
+        <Route path="/detail/:id" component={HouseDetail} />
         {/* 404页面 */}
         <Route component={NotFound} />
       </Switch>

@@ -4,6 +4,10 @@
   bottom: 0;
 }
 
+.home {
+  height: 100%;
+}
+
 .tabBar .iconfont {
   font-size: 24px;
 }

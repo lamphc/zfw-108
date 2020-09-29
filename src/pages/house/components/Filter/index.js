@@ -21,6 +21,14 @@ const tilteSelStatus = {
   more: false
 }
 
+// 筛选器默认选中的条件
+const defSel = {
+  area: ['area', 'null'],
+  mode: ['null'],
+  price: ['null'],
+  more: []
+}
+
 export default class Filter extends Component {
 
   // 定义响应数据
@@ -34,7 +42,37 @@ export default class Filter extends Component {
   componentDidMount () {
     this.getFilters()
     // 初始化：筛选器选中的条件数据
-    this.filterSeled = {}
+    this.filterSeled = { ...defSel }
+  }
+
+
+  // 处理筛选条件数据=》后续调用房源列表接口使用
+  handlerFilterDatas () {
+    const filters = {}
+    const { area, mode, price, more } = this.filterSeled
+
+    if (Object.keys(this.filterSeled).length) {
+      // 区域
+      let key = area[0], val
+      if (area.length === 2) {
+        val = area[1]
+      } else {
+        if (area[2] !== 'null') {
+          val = area[2]
+        } else {
+          val = area[1]
+        }
+      }
+      filters[key] = val
+    }
+    // 出租方式
+    filters.rentType = mode[0]
+    // 租金
+    filters.price = price[0]
+    // 更多
+    filters.more = more.join(',')
+
+    return filters
   }
 
 
@@ -53,7 +91,10 @@ export default class Filter extends Component {
           newStatus[key] = true
         } else if (key === 'price' && val[0] !== 'null') {
           newStatus[key] = true
-        } else {
+        } else if (key === 'more' && val.length > 0) {
+          newStatus[key] = true
+        }
+        else {
           newStatus[key] = false
         }
       }
@@ -120,12 +161,25 @@ export default class Filter extends Component {
     console.log('当前选中的条件：', openType, sel)
     // 存储当前筛选器的选中条件=》回现
     this.filterSeled[openType] = sel
-    this.setState({ openType: '', tilteSelStatus: this.handlerSelStatus() })
+    this.setState({ openType: '', tilteSelStatus: this.handlerSelStatus() }, () => {
+      // console.log('选中的筛选器数据：', this.handlerFilterDatas())
+      this.props.onFilter(this.handlerFilterDatas())
+    })
   }
 
   // 关闭筛选器
   onClose = () => {
     this.setState({ openType: '', tilteSelStatus: this.handlerSelStatus() })
+  }
+
+  // 渲染更多筛选器
+  renderMoreFilter () {
+    const { openType } = this.state
+    if (openType === 'more') {
+      let { roomType, oriented, floor, characteristic } = this.filterDatas
+      let data = { roomType, oriented, floor, characteristic }
+      return <FilterMore data={data} value={this.filterSeled[openType]} onOk={this.onOk} onClose={this.onClose} />
+    }
   }
 
   render () {
@@ -142,7 +196,7 @@ export default class Filter extends Component {
           {this.showPicker()}
 
           {/* 最后一个菜单对应的内容： */}
-          {/* <FilterMore /> */}
+          {this.renderMoreFilter()}
         </div>
       </div>
     )
