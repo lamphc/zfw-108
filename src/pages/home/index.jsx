@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import House from '../house'
 import Index from '../index'
-import Profile from '../profile'
+import Profile from '../Profile'
 
 import { TabBar } from 'antd-mobile'
 

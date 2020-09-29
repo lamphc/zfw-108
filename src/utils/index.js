@@ -39,7 +39,7 @@ const getCurCity = () => {
  * 3. cookie 设置过期时间(不安全) 大小：4KB
  * 4. indexDB 本地数据库 大小没有限制
  */
-
+const ZFW_TOKEN = 'ZFW_TOKEN'
 //  存储
 export function setLocalData (key, val) {
   window.localStorage.setItem(key, val)
@@ -54,9 +54,30 @@ export function delLocalData (key) {
   window.localStorage.removeItem(key)
 }
 
+// 封装存储token的方法
+
+// 存储token
+export function setToken (val) {
+  setLocalData(ZFW_TOKEN, val)
+}
+// 获取token
+export function getToken () {
+  return getLocalData(ZFW_TOKEN)
+}
+
+// 删除token
+export function delToken () {
+  delLocalData(ZFW_TOKEN)
+}
+
+// 判断是否登录
+export function isAuth () {
+  return !!getToken()
+}
 
 
 
 
 
-export { getCurCity, CURR_CITY }
+
+export { getCurCity, CURR_CITY, ZFW_TOKEN }

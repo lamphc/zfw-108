@@ -6,6 +6,7 @@ import CityList from './pages/cityList'
 import Home from './pages/home'
 import Map from './pages/map'
 import NotFound from './pages/notFound'
+import Login from './pages/Login'
 
 /**
  * 配置路由：
@@ -25,6 +26,8 @@ function App () {
         <Route path="/cityList" component={CityList} />
         {/* 地图找房 */}
         <Route path="/map" component={Map} />
+        {/* 登录 */}
+        <Route path="/login" component={Login} />
         {/* 房源详情 */}
         <Route path="/detail/:id" component={HouseDetail} />
         {/* 404页面 */}
