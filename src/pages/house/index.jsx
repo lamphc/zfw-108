@@ -18,6 +18,7 @@ import NoHouse from '../../components/NoHouse'
 
 export default class HouseList extends React.Component {
   state = { list: [], count: 0 }
+
   // 回调函数
   onFilter = (filters) => {
     console.log('接收子组件筛选器的数据：', filters)
@@ -27,6 +28,7 @@ export default class HouseList extends React.Component {
   }
 
   async componentDidMount() {
+    // const st = useState(0)
     const { value } = await getCurCity()
     // 存储城市ID
     this.cityId = value

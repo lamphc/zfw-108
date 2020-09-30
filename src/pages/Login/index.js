@@ -62,7 +62,7 @@ class Login extends Component {
       handleChange,
       handleSubmit,
     } = this.props
-    // console.log(errors)
+    console.log(this.props.location)
     return (
       <div className={styles.root}>
         {/* 顶部导航 */}
@@ -146,7 +146,10 @@ const NewLogin = withFormik({
     if (status === 200) {
       setLocalData(ZFW_TOKEN, data.token)
       Toast.success('登录成功', 1, () => {
-        props.history.replace('/home/profile')
+        if (props.location.backUrl) {
+          return props.history.replace(props.location.backUrl)
+        }
+        return props.history.replace('/home/profile')
       })
     } else {
       resetForm()

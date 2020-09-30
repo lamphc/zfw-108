@@ -11,6 +11,7 @@ import { TabBar } from 'antd-mobile'
 
 import './index.css'
 import TabBarList from '../../utils/barConf'
+import Hook from '../hook'
 
 export default class Home extends Component {
   state = {
@@ -55,6 +56,7 @@ export default class Home extends Component {
         <Route exact path="/home" component={Index} />
         <Route path="/home/house" component={House} />
         <Route path="/home/profile" component={Profile} />
+        <Route path="/home/hook" component={Hook} />
 
         {/* NavBar */}
         <div className="tabBar">{this.renderTabBar()}</div>

@@ -1,5 +1,6 @@
 import { Toast } from 'antd-mobile'
 import axios from 'axios'
+import { getToken } from './index.js'
 // 导入轻提示
 
 
@@ -16,6 +17,12 @@ MyAxios.interceptors.request.use(function (config) {
   // Do something before request is sent
   // 显示loading
   Toast.loading('加载中...', 0)
+  console.log(config)
+  // 请求之前：统一添加token
+  const { headers, url } = config, whiteNames = ['/user/registered', '/user/login']
+  if (url.startsWith('/user') && !whiteNames.includes(url)) {
+    headers.authorization = getToken()
+  }
   return config
 }, function (error) {
   // Do something with request error

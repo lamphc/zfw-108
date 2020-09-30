@@ -15,6 +15,11 @@ const TabBarList = [
     icon: 'icon-my',
     path: '/home/profile',
   },
+  {
+    title: 'hook',
+    icon: 'icon-air',
+    path: '/home/hook',
+  },
 ]
 
 export default TabBarList
